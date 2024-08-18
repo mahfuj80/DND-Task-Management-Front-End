@@ -1,11 +1,13 @@
 import Counter from "@/components/Counter/Counter";
+import Banner from "@/components/Home/Banner";
+import NewsLetter from "@/components/Home/NewsLetter";
 import Link from "next/link";
 
 const HomePage = () => {
   return (
     <div className="">
-      <h1>This is the Home Page</h1>
-      <Counter />
+      <Banner />
+      <NewsLetter />
     </div>
   );
 };

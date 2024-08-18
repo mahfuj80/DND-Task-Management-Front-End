@@ -110,7 +110,7 @@ const Navbar = () => {
         {/* Menu Button */}
         <button
           onClick={() => setCollapse(!collapse)}
-          className="relative flex flex-col items-center justify-between w-10 h-6"
+          className="relative flex flex-col items-center justify-between w-10 h-6 md:hidden"
         >
           <span
             className={`block w-10 h-[2px] bg-white transition-transform duration-300 ease-in-out ${
