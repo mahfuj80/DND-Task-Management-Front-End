@@ -6,16 +6,16 @@ import Title from "../Shared/Title";
 
 const NewsLetter = () => {
   return (
-    <div class="relative font-[sans-serif] before:absolute before:w-full before:h-full before:inset-0 before:bg-black before:opacity-40 ">
+    <div className="relative font-[sans-serif] before:absolute before:w-full before:h-full before:inset-0 before:bg-black before:opacity-40 ">
       <Image
         width={100}
         height={100}
         src="/home/news-letter/background.png"
         alt="Banner Image"
-        class="absolute inset-0 w-full h-full object-cover object-bottom"
+        className="absolute inset-0 object-cover object-bottom w-full h-full"
       />
-      <div class="min-h-[400px] relative  h-full max-w-4xl mx-auto flex flex-col justify-center items-center text-center px-6 py-12">
-        <div class="max-w-3xl mx-auto text-center">
+      <div className="min-h-[400px] relative  h-full max-w-4xl mx-auto flex flex-col justify-center items-center text-center px-6 py-12">
+        <div className="max-w-3xl mx-auto text-center">
           <Title>Subscribe To Our NewsLetter</Title>
           <Description>
             Subscribe to our newsletter and stay up to date with the latest
@@ -23,11 +23,11 @@ const NewsLetter = () => {
             community today!
           </Description>
 
-          <div class="max-w-lg mx-auto bg-gray-100 flex p-1 rounded-full text-left mt-12 border focus-within:border-gray-700">
+          <div className="flex max-w-lg p-1 mx-auto mt-12 text-left bg-gray-100 border rounded-full focus-within:border-gray-700">
             <input
               type="email"
               placeholder="Enter your email"
-              class="w-full outline-none bg-transparent text-sm text-gray-800 px-4 py-3"
+              className="w-full px-4 py-3 text-sm text-gray-800 bg-transparent outline-none"
             />
             <Button>Submit</Button>
           </div>
