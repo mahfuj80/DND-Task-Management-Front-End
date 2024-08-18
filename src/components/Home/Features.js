@@ -100,11 +100,10 @@ const Features = () => {
               </div>
               <div>
                 <h3 className="mb-3 text-xl font-semibold text-white">
-                  Customization
+                  {feature.title}
                 </h3>
                 <p className="text-sm text-white">
-                  Tailor our product to suit your needs Expand your reach with
-                  our global network.
+                  {feature.description}
                 </p>
               </div>
             </div>
