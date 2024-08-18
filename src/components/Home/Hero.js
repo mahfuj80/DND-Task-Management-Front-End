@@ -7,7 +7,7 @@ import Button from "../Shared/Button";
 
 const Hero = () => {
   return (
-    <div className="px-6 py-12 overflow-hidden font-sans bg-gray-800">
+    <div className="px-6 py-12 overflow-hidden  bg-[#161616c7]">
       <div className="mx-auto max-w-7xl max-md:max-w-md">
         <div className="grid items-center gap-12 md:grid-cols-2">
           <div>

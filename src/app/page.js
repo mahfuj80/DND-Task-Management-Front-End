@@ -1,4 +1,5 @@
 import Banner from "@/components/Home/Banner";
+import Features from "@/components/Home/Features";
 import Hero from "@/components/Home/Hero";
 import NewsLetter from "@/components/Home/NewsLetter";
 import Pricing from "@/components/Home/Pricing";
@@ -10,6 +11,7 @@ const HomePage = () => {
     <div className="space-y-20">
       <Hero />
       <Banner />
+      <Features />
       <Testimonial />
       <Stats />
       <Pricing />
