@@ -1,5 +1,9 @@
 import Image from "next/image";
 import React from "react";
+import Description from "../Shared/Description";
+import Title from "../Shared/Title";
+import Link from "next/link";
+import Button from "../Shared/Button";
 
 const Hero = () => {
   return (
@@ -7,28 +11,23 @@ const Hero = () => {
       <div className="mx-auto max-w-7xl max-md:max-w-md">
         <div className="grid items-center gap-12 md:grid-cols-2">
           <div>
-            <h2 className="text-white lg:text-5xl md:text-4xl text-3xl font-bold mb-4 lg:!leading-[55px]">
-              All your business finances in one app.
-            </h2>
-            <p className="mt-6 text-base leading-relaxed text-white">
+            <Title>All your business finances in one app.</Title>
+            <Description>
               Explore a curated collection of ready-to-use components and design
               blocks, empowering you to create stunning, responsive interfaces
               with ease. Streamline your workflow, amplify your creativity, and
               discover the future of web development, all at your fingertips.
-            </p>
+            </Description>
             <div className="mt-12">
-              <button
-                type="button"
-                className="px-5 py-3 text-sm font-bold text-gray-800 transition-all bg-white rounded hover:bg-gray-100"
-              >
+              <Button className={"bg-white text-black hover:text-white"}>
                 Getting Started
-              </button>
-              <a
-                href="javascript:void(0)"
+              </Button>
+              <Link
+                href="#"
                 className="text-sm font-bold text-white underline sm:ml-6 max-sm:mt-4 max-sm:block whitespace-nowrap"
               >
                 API Documentation
-              </a>
+              </Link>
             </div>
           </div>
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const HomePage = () => {
   return (
-    <div className="">
+    <div className="space-y-20">
       <Hero />
       <NewsLetter />
     </div>
