@@ -1,12 +1,12 @@
 import Counter from "@/components/Counter/Counter";
-import Banner from "@/components/Home/Banner";
+import Hero from "@/components/Home/Hero";
 import NewsLetter from "@/components/Home/NewsLetter";
 import Link from "next/link";
 
 const HomePage = () => {
   return (
     <div className="">
-      <Banner />
+      <Hero />
       <NewsLetter />
     </div>
   );
