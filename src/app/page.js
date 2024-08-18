@@ -2,6 +2,7 @@ import Banner from "@/components/Home/Banner";
 import Hero from "@/components/Home/Hero";
 import NewsLetter from "@/components/Home/NewsLetter";
 import Pricing from "@/components/Home/Pricing";
+import Stats from "@/components/Home/Stats";
 import Testimonial from "@/components/Home/Testimonial";
 
 const HomePage = () => {
@@ -10,9 +11,9 @@ const HomePage = () => {
       <Hero />
       <Banner />
       <Testimonial />
+      <Stats />
       <Pricing />
       <NewsLetter />
-     
     </div>
   );
 };
