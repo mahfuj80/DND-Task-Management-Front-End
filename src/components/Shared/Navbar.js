@@ -100,7 +100,7 @@ const Navbar = () => {
 
         {/* Mobile Nav Links */}
         <ul
-          className={`absolute right-0  flex-col items-center justify-start w-10/12 h-full gap-8 md:hidden bg-black/90 top-16 ${
+          className={`absolute right-0  flex-col items-center justify-start w-10/12 h-full gap-8 md:hidden bg-black/90 top-16 z-50 ${
             collapse ? "hidden" : "flex"
           }`}
         >
