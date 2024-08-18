@@ -1,11 +1,11 @@
 import React from "react";
 
-const ContactPage = () => {
+const Dashboard = () => {
   return (
     <div>
-      <h1>Welcome to contact page with layout header footer</h1>
+      <h1>Welcome to Dashboard</h1>
     </div>
   );
 };
 
-export default ContactPage;
+export default Dashboard;

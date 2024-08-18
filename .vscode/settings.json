@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["aplyca", "daisyui", "tailwindcss"]
+  "cSpell.words": ["aplyca", "daisyui", "tailwindcss"],
+  "svg.preview.background": "transparent"
 }
