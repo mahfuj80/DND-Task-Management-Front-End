@@ -1,6 +1,8 @@
 "use client";
 
 import { MdOutlineEmail } from "react-icons/md";
+import { FaLink } from "react-icons/fa6";
+import { IoPersonCircleOutline } from "react-icons/io5";
 import { IoKeyOutline } from "react-icons/io5";
 import SocialLogin from "@/components/SignIn/SocialLogin";
 import useAuth from "@/Hooks/Auth/useAuth";
@@ -140,7 +142,7 @@ const RegisterPage = () => {
                 className="w-full px-4 py-3 text-sm text-black border border-gray-100 rounded-lg outline-blue-600"
                 placeholder="Name Here"
               />
-              <MdOutlineEmail className="w-[18px] h-[18px] absolute right-4 text-black" />
+              <IoPersonCircleOutline className="w-[18px] h-[18px] absolute right-4 text-black" />
             </div>
           </div>
 
@@ -155,7 +157,7 @@ const RegisterPage = () => {
                 className="w-full px-4 py-3 text-sm text-black border border-gray-100 rounded-lg outline-blue-600"
                 placeholder="https://Image-URL....."
               />
-              <MdOutlineEmail className="w-[18px] h-[18px] absolute right-4 text-black" />
+              <FaLink className="w-[18px] h-[18px] absolute right-4 text-black" />
             </div>
           </div>
 
@@ -218,7 +220,7 @@ const RegisterPage = () => {
             <input
               type="submit"
               className="w-full px-4 py-3 text-lg font-semibold tracking-wide text-black bg-white rounded-lg shadow-xl hover:bg-gray-100 focus:outline focus:outline-gray-400 hover:cursor-pointer"
-              value="Login"
+              value="Register"
             />
           </div>
 
