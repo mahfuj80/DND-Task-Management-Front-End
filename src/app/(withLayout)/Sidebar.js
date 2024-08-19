@@ -4,8 +4,10 @@
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 import { useState } from "react";
 import Link from "next/link";
+import useAuth from "@/Hooks/Auth/useAuth";
 
 const Sidebar = () => {
+  const { logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -41,22 +43,30 @@ const Sidebar = () => {
             </button>
           </div>
           <nav className="mt-4">
-            <ul>
+            <ul className="space-y-2">
               <li>
                 <Link
                   href="/home"
-                  className="block px-4 py-2 hover:bg-gray-700"
+                  className="block px-4 py-2 bg-[#1d1d1d] hover:bg-[#161616]"
                 >
-                  Home
+                  Add Task
                 </Link>
               </li>
               <li>
                 <Link
-                  href="/about"
-                  className="block px-4 py-2 hover:bg-gray-700"
+                  href="/home"
+                  className="block px-4 py-2 bg-[#1d1d1d] hover:bg-[#161616]"
                 >
-                  About
+                  Add Board
                 </Link>
+              </li>
+              <li>
+                <button
+                  onClick={logOut}
+                  className="block px-4 py-2 bg-[#1d1d1d] hover:bg-[#161616] w-full"
+                >
+                  Log Out
+                </button>
               </li>
               {/* Add more links here */}
             </ul>

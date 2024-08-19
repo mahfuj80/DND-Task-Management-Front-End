@@ -19,6 +19,9 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [updateTaskList, setUpdateTaskList] = useState(0);
+  const [uId, setUId] = useState("");
+
   const googleProvider = new GoogleAuthProvider();
   const axiosPublic = useAxiosPublic();
   const githubProvider = new GithubAuthProvider();
@@ -92,12 +95,16 @@ const AuthProvider = ({ children }) => {
   const authInfo = {
     user,
     loading,
+    updateTaskList,
+    uId,
     createUser,
     signIn,
     googleSignIn,
     logOut,
     updateUserProfile,
     githubSignIn,
+    setUId,
+    setUpdateTaskList,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
