@@ -93,7 +93,7 @@ const Features = () => {
           {features.map((feature) => (
             <div
               key={feature.id}
-              className="flex gap-6 p-6 transition-all bg-[#181818] rounded-lg shadow-md hover:shadow-none shadow-white"
+              className="flex gap-6 p-6 transition-all bg-[#181818] rounded-lg shadow-md hover:shadow-none shadow-white hover:cursor-pointer"
             >
               <div className="w-12 h-12 p-3 text-2xl text-black bg-gray-100 rounded-md shrink-0">
                 {feature.icon}
