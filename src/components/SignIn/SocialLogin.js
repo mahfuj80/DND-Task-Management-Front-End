@@ -1,14 +1,22 @@
 "use client";
-
-import React from "react";
+import React, { useEffect } from "react";
 import { FaGoogle, FaGithub } from "react-icons/fa";
 import Swal from "sweetalert2";
 import useAuth from "@/Hooks/Auth/useAuth";
 import useAxiosPublic from "@/Hooks/Axios/useAxiosPublic"; // Assuming you have this hook
+import { useRouter } from "next/navigation";
 
 const SocialLogin = () => {
   const axiosPublic = useAxiosPublic();
-  const { googleSignIn, githubSignIn } = useAuth();
+  const { googleSignIn, githubSignIn, user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user) {
+      const redirectPath = router.query.redirect || "/"; // Use query parameter for redirect path or default to '/'
+      router.push(redirectPath);
+    }
+  }, [user, router]);
 
   const handleGoogle = () => {
     googleSignIn()
@@ -52,6 +60,11 @@ const SocialLogin = () => {
 
   return (
     <div className="flex flex-col items-center gap-4 p-8 text-center">
+      <div className="flex items-center">
+        <div className="flex-grow w-24 border-t-2 border-white"></div>
+        <span className="mx-4 text-gray-400">OR</span>
+        <div className="flex-grow w-24 border-t-2 border-white"></div>
+      </div>
       <p className="text-xl font-bold ">Sign in with</p>
       <div className="flex gap-4">
         <button
@@ -68,7 +81,6 @@ const SocialLogin = () => {
         </button>
       </div>
     </div>
-    
   );
 };
 

@@ -19,7 +19,7 @@ const Hero = () => {
               discover the future of web development, all at your fingertips.
             </Description>
             <div className="mt-12">
-              <Button className={"bg-white text-black hover:text-white"}>
+              <Button className={"bg-white !text-black hover:!text-white"}>
                 Getting Started
               </Button>
               <Link
