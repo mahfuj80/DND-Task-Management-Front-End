@@ -10,6 +10,7 @@ const Footer = () => {
           <div>
             <Link href={"/"}>
               <Image
+              priority
                 className="w-auto h-auto"
                 width={200}
                 height={300}

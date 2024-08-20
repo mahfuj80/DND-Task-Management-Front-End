@@ -13,7 +13,7 @@ const SocialLogin = () => {
 
   useEffect(() => {
     if (user) {
-      const redirectPath = router.query.redirect || "/"; // Use query parameter for redirect path or default to '/'
+      const redirectPath = router.query?.redirect || "/"; // Use query parameter for redirect path or default to '/'
       router.push(redirectPath);
     }
   }, [user, router]);
@@ -29,7 +29,7 @@ const SocialLogin = () => {
         };
         axiosPublic.post("/users", userInfo).then(() => {
           Swal.fire("Logged In", "You Successfully Logged In", "success");
-          const redirectPath = router.query.redirect || "/";
+          const redirectPath = router.query?.redirect || "/";
           router.push(redirectPath);
         });
       })

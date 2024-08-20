@@ -68,6 +68,7 @@ const AuthProvider = ({ children }) => {
   //   follow a user
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUId(currentUser?.uid);
       setUser(currentUser);
       if (currentUser) {
         // get token and store client
@@ -84,7 +85,7 @@ const AuthProvider = ({ children }) => {
         localStorage.removeItem("access-token");
         setLoading(true);
       }
-      // console.log('Current User', currentUser);
+      console.log("Current User", currentUser);
       // setLoading(false);
     });
     return () => {

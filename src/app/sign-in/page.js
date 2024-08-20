@@ -14,7 +14,7 @@ const SignIn = () => {
 
   useEffect(() => {
     if (user) {
-      const redirectPath = router.query.redirect || "/";
+      const redirectPath = router.query?.redirect || "/";
       router.push(redirectPath);
     }
   }, [user, router]);

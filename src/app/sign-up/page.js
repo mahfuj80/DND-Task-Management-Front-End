@@ -18,7 +18,7 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (user) {
-      const redirectPath = router.query.redirect || "/"; // Use query parameter for redirect path or default to '/'
+      const redirectPath = router.query?.redirect || "/"; // Use query parameter for redirect path or default to '/'
       router.push(redirectPath);
     }
   }, [user, router]);

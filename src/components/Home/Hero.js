@@ -35,6 +35,7 @@ const Hero = () => {
             <Image
               width={400}
               height={400}
+              priority
               src="/home/hero/hero.png"
               className="shrink-0 w-full h-full md:skew-x-[-22deg] md:-rotate-1 rounded-md object-contain"
               alt="Image-Hero"

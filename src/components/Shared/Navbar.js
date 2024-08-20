@@ -1,4 +1,5 @@
 "use client";
+import useAuth from "@/Hooks/Auth/useAuth";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -8,6 +9,7 @@ const Navbar = () => {
   const [collapse, setCollapse] = useState(true);
   const [currentPath, setCurrentPath] = useState("/");
   const path = useParams();
+  const { user, logOut } = useAuth();
 
   const navLinks = (
     <>
@@ -39,33 +41,59 @@ const Navbar = () => {
         </Link>
       </li>
 
-      <li>
-        <Link
-          href={"/sign-up"}
-          className="relative inline-block px-2 py-1 text-gray-300 transition-all duration-300 group"
-        >
-          Sign Up
-          <span
-            className={`absolute left-0 bottom-0 h-[2px] bg-white transition-all duration-300 ${
-              currentPath === "/sign-up" ? "w-full" : "w-0 group-hover:w-full"
-            }`}
-          />
-        </Link>
-      </li>
+      {user?.email ? (
+        ""
+      ) : (
+        <li>
+          <Link
+            href={"/sign-up"}
+            className="relative inline-block px-2 py-1 text-gray-300 transition-all duration-300 group"
+          >
+            Sign Up
+            <span
+              className={`absolute left-0 bottom-0 h-[2px] bg-white transition-all duration-300 ${
+                currentPath === "/sign-up" ? "w-full" : "w-0 group-hover:w-full"
+              }`}
+            />
+          </Link>
+        </li>
+      )}
 
-      <li>
-        <Link
-          href={"/sign-in"}
-          className="relative inline-block px-2 py-1 text-gray-300 transition-all duration-300 group"
-        >
-          Sign In
-          <span
-            className={`absolute left-0 bottom-0 h-[2px] bg-white transition-all duration-300 ${
-              currentPath === "/sign-in" ? "w-full" : "w-0 group-hover:w-full"
-            }`}
-          />
-        </Link>
-      </li>
+      {user?.email ? (
+        ""
+      ) : (
+        <li>
+          <Link
+            href={"/sign-in"}
+            className="relative inline-block px-2 py-1 text-gray-300 transition-all duration-300 group"
+          >
+            Sign In
+            <span
+              className={`absolute left-0 bottom-0 h-[2px] bg-white transition-all duration-300 ${
+                currentPath === "/sign-in" ? "w-full" : "w-0 group-hover:w-full"
+              }`}
+            />
+          </Link>
+        </li>
+      )}
+
+      {user?.email ? (
+        <li>
+          <button
+            onClick={logOut}
+            className="relative inline-block px-2 py-1 text-gray-300 transition-all duration-300 group"
+          >
+            Log Out{" "}
+            <span
+              className={`absolute left-0 bottom-0 h-[2px] bg-white transition-all duration-300 ${
+                currentPath === "/sign-in" ? "w-full" : "w-0 group-hover:w-full"
+              }`}
+            />
+          </button>
+        </li>
+      ) : (
+        ""
+      )}
     </>
   );
   useEffect(() => {
@@ -83,6 +111,7 @@ const Navbar = () => {
             className="w-auto h-auto md:hidden"
             width={200}
             height={200}
+            priority
             src="/logo.png"
             alt="logo"
           />
@@ -90,21 +119,45 @@ const Navbar = () => {
             className="hidden w-auto h-auto md:block"
             width={200}
             height={200}
+            priority
             src="/logo.png"
             alt="logo"
           />
         </Link>
 
         {/* Desktop Nav Links */}
-        <ul className="hidden gap-8 md:flex">{navLinks}</ul>
+        <ul className="hidden gap-8 md:flex md:items-center">
+          {navLinks}
+          {user?.email && (
+            <Image
+              className="hidden rounded-full md:block size-12"
+              width={100}
+              height={100}
+              priority
+              src={user?.photoURL}
+              alt="logo"
+            />
+          )}
+        </ul>
 
         {/* Mobile Nav Links */}
+
         <ul
           className={`absolute right-0  flex-col items-center justify-start w-10/12 h-full gap-8 md:hidden bg-black/90 top-16 z-50 ${
             collapse ? "hidden" : "flex"
           }`}
         >
           {navLinks}
+          {user?.email && (
+            <Image
+              className="rounded-full md:block size-12"
+              width={100}
+              height={100}
+              priority
+              src={user?.photoURL}
+              alt="logo"
+            />
+          )}
         </ul>
 
         {/* Menu Button */}
