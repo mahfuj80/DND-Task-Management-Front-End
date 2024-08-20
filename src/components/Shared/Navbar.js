@@ -26,20 +26,25 @@ const Navbar = () => {
           />
         </Link>
       </li>
-
-      <li>
-        <Link
-          href={"/dashboard"}
-          className="relative inline-block px-2 py-1 text-gray-300 transition-all duration-300 group"
-        >
-          Dashboard
-          <span
-            className={`absolute left-0 bottom-0 h-[2px] bg-white transition-all duration-300 ${
-              currentPath === "/dashboard" ? "w-full" : "w-0 group-hover:w-full"
-            }`}
-          />
-        </Link>
-      </li>
+      {user?.email ? (
+        <li>
+          <Link
+            href={"/dashboard"}
+            className="relative inline-block px-2 py-1 text-gray-300 transition-all duration-300 group"
+          >
+            Dashboard
+            <span
+              className={`absolute left-0 bottom-0 h-[2px] bg-white transition-all duration-300 ${
+                currentPath === "/dashboard"
+                  ? "w-full"
+                  : "w-0 group-hover:w-full"
+              }`}
+            />
+          </Link>
+        </li>
+      ) : (
+        ""
+      )}
 
       {user?.email ? (
         ""

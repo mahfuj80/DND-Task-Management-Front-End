@@ -81,7 +81,7 @@ const AuthProvider = ({ children }) => {
           }
         });
       } else {
-        // TODO: remove token (if token stored in teh client side: Local storage, caching, in memory)
+        // Done: remove token (if token stored in teh client side: Local storage, caching, in memory)
         localStorage.removeItem("access-token");
         setLoading(true);
       }

@@ -49,7 +49,7 @@ const SocialLogin = () => {
         };
         axiosPublic.post("/users", userInfo).then(() => {
           Swal.fire("Logged In", "You Successfully Logged In", "success");
-          const redirectPath = router.query.redirect || "/";
+          const redirectPath = router.query?.redirect || "/";
           router.push(redirectPath);
         });
       })

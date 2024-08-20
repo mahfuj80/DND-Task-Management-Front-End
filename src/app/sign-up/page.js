@@ -7,9 +7,10 @@ import { IoKeyOutline } from "react-icons/io5";
 import SocialLogin from "@/components/SignIn/SocialLogin";
 import useAuth from "@/Hooks/Auth/useAuth";
 import useAxiosPublic from "@/Hooks/Axios/useAxiosPublic";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import Link from "next/link";
+import Swal from "sweetalert2";
 
 const RegisterPage = () => {
   const axiosPublic = useAxiosPublic();
@@ -18,8 +19,8 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (user) {
-      const redirectPath = router.query?.redirect || "/"; // Use query parameter for redirect path or default to '/'
-      router.push(redirectPath);
+      // Use query parameter for redirect path or default to '/'
+      router.push("/");
     }
   }, [user, router]);
 
@@ -31,7 +32,7 @@ const RegisterPage = () => {
     const email = form.get("email");
     const password = form.get("password");
 
-    // Check password lengthfir
+    // Check password length
     // if (password.length < 6) {
     //   Swal.fire({
     //     title: 'Error!',
@@ -78,20 +79,22 @@ const RegisterPage = () => {
                 email,
                 image,
               };
+              router.push("/");
+              window.location.reload();
               console.log(userInfo);
-              axiosPublic.post("/users", userInfo).then((res) => {
-                if (res?.data?.insertedId) {
-                  console.log("user added to the database");
-                  Swal.fire({
-                    position: "top-end",
-                    icon: "success",
-                    title: "User Successfully Created",
-                    showConfirmButton: false,
-                    timer: 1500,
-                  });
-                  navigate(location?.state ? location.state : "/");
-                }
-              });
+              // axiosPublic.post("/users", userInfo).then((res) => {
+              //   if (res?.data?.insertedId) {
+              //     console.log("user added to the database");
+              //     Swal.fire({
+              //       position: "top-end",
+              //       icon: "success",
+              //       title: "User Successfully Created",
+              //       showConfirmButton: false,
+              //       timer: 1500,
+              //     });
+              //     router.push(location?.state ? location?.state : "/");
+              //   }
+              // });
             })
             .catch((error) => {
               // Handle Errors here.
@@ -199,10 +202,7 @@ const RegisterPage = () => {
                 type="checkbox"
                 className="w-4 h-4 text-blue-600 border-gray-300 rounded shrink-0 focus:ring-blue-500"
               />
-              <label
-                for="remember-me"
-                className="block ml-3 text-sm text-white"
-              >
+              <label className="block ml-3 text-sm text-white">
                 Remember me
               </label>
             </div>
