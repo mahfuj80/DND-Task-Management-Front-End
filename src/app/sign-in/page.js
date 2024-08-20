@@ -90,10 +90,7 @@ const SignIn = () => {
                 type="checkbox"
                 className="w-4 h-4 text-blue-600 border-gray-300 rounded shrink-0 focus:ring-blue-500"
               />
-              <label
-                for="remember-me"
-                className="block ml-3 text-sm text-white"
-              >
+              <label className="block ml-3 text-sm text-white">
                 Remember me
               </label>
             </div>
