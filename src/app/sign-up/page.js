@@ -33,37 +33,37 @@ const RegisterPage = () => {
     const password = form.get("password");
 
     // Check password length
-    // if (password.length < 6) {
-    //   Swal.fire({
-    //     title: 'Error!',
-    //     text: 'Password should be at least 6 characters long.',
-    //     icon: 'error',
-    //     confirmButtonText: 'Ok',
-    //   });
-    //   return;
-    // }
+    if (password.length < 6) {
+      Swal.fire({
+        title: "Error!",
+        text: "Password should be at least 6 characters long.",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+      return;
+    }
 
-    // // Check for capital letter
-    // if (!/[A-Z]/.test(password)) {
-    //   Swal.fire({
-    //     title: 'Error!',
-    //     text: 'Password should contain at least one capital letter.',
-    //     icon: 'error',
-    //     confirmButtonText: 'Ok',
-    //   });
-    //   return;
-    // }
+    // Check for capital letter
+    if (!/[A-Z]/.test(password)) {
+      Swal.fire({
+        title: "Error!",
+        text: "Password should contain at least one capital letter.",
+        icon: "error",
+        confirmButtonText: "Ok",
+      });
+      return;
+    }
 
-    // // Check for special character
-    // if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
-    //   Swal.fire({
-    //     title: 'Error!',
-    //     text: 'Password should contain at least one special character.',
-    //     icon: 'error',
-    //     confirmButtonText: 'Ok',
-    //   });
-    //   return;
-    // }
+    // Check for special character
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Password should contain at least one special character.',
+        icon: 'error',
+        confirmButtonText: 'Ok',
+      });
+      return;
+    }
 
     console.log(name);
 
@@ -118,6 +118,9 @@ const RegisterPage = () => {
         Swal.fire("Something Went Wrong!!", `${errorMessage}`, "error");
       });
   };
+
+
+  
   return (
     <div className="flex items-center justify-center min-h-screen px-4 py-6 fle-col">
       <div className="  rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto">

@@ -14,7 +14,7 @@ const SignIn = () => {
 
   useEffect(() => {
     if (user) {
-      const redirectPath = router.query?.redirect || "/";
+      const redirectPath = router.query?.redirect || "/dashboard";
       router.push(redirectPath);
     }
   }, [user, router]);
@@ -28,7 +28,7 @@ const SignIn = () => {
     try {
       await signIn(email, password);
       Swal.fire("Logged In", "You Successfully Logged In", "success");
-      const redirectPath = router.query?.redirect || "/";
+      const redirectPath = router.query?.redirect || "/dashboard";
       router.push(redirectPath);
     } catch (error) {
       const errorMessage = error.message;

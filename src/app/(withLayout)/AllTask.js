@@ -60,11 +60,11 @@ const AllTask = () => {
     }
 
     const updatedTasks = [...tasks];
-    const task = updatedTasks.find((t) => t._id === draggableId);
+    const task = updatedTasks.find((t) => t.id === draggableId);
     task.category = destination.droppableId;
     console.log(task.category, destination.droppableId, updatedTasks);
     // console.log(task);
-    const res = await axios.put(`/tasks/update-task-category/${task._id}`, {
+    const res = await axios.put(`/tasks/update-task-category/${task.id}`, {
       category: task.category,
     });
     // console.log(res.data);
@@ -118,8 +118,8 @@ const AllTask = () => {
                   .filter((task) => task.category === "todo")
                   .map((task, index) => (
                     <Draggable
-                      key={task._id}
-                      draggableId={task._id}
+                      key={task.id}
+                      draggableId={task.id}
                       index={index}
                     >
                       {(provided) => (
@@ -146,7 +146,7 @@ const AllTask = () => {
                             </button>
                             <button
                               className="h-auto p-2 btn min-h-min"
-                              onClick={() => handleDelete(task._id)}
+                              onClick={() => handleDelete(task.id)}
                             >
                               <MdDeleteForever />
                             </button>
@@ -178,8 +178,8 @@ const AllTask = () => {
                   .filter((task) => task.category === "ongoing")
                   .map((task, index) => (
                     <Draggable
-                      key={task._id}
-                      draggableId={task._id}
+                      key={task.id}
+                      draggableId={task.id}
                       index={index}
                     >
                       {(provided) => (
@@ -206,7 +206,7 @@ const AllTask = () => {
                             </button>
                             <button
                               className="h-auto p-2 btn min-h-min"
-                              onClick={() => handleDelete(task._id)}
+                              onClick={() => handleDelete(task.id)}
                             >
                               <MdDeleteForever />
                             </button>
@@ -237,8 +237,8 @@ const AllTask = () => {
                   .filter((task) => task.category === "done")
                   .map((task, index) => (
                     <Draggable
-                      key={task._id}
-                      draggableId={task._id}
+                      key={task.id}
+                      draggableId={task.id}
                       index={index}
                     >
                       {(provided) => (
@@ -265,7 +265,7 @@ const AllTask = () => {
                             </button>
                             <button
                               className="h-auto p-2 btn min-h-min"
-                              onClick={() => handleDelete(task._id)}
+                              onClick={() => handleDelete(task.id)}
                             >
                               <MdDeleteForever />
                             </button>
