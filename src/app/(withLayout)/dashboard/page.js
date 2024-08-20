@@ -1,7 +1,8 @@
-import React from "react";
+"use client"
+import React, { useState } from "react";
 
 const Dashboard = () => {
-  return <>Hello World</>;
+  return <>Hello</>;
 };
 
 export default Dashboard;

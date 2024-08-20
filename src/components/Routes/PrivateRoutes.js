@@ -1,16 +1,21 @@
-"use Client";
+// "use client"
 import PropTypes from "prop-types";
 import { useRouter } from "next/navigation";
 import useAuth from "@/Hooks/Auth/useAuth";
+import { useEffect } from "react";
 
 const PrivateRoute = ({ children }) => {
   const { user } = useAuth();
   const router = useRouter();
 
-  if (!user) {
-    // Save the current path to redirect after login
+  useEffect(() => {
+    if (!user) {
+      router.push(`/sign-in`);
+    }
+  }, [user, router]);
 
-    router.push(`/`);
+  if (!user) {
+    // Render nothing or a loading spinner until the redirect happens
     return null;
   }
 

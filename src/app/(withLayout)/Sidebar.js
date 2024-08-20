@@ -6,7 +6,7 @@ import { useState } from "react";
 import Link from "next/link";
 import useAuth from "@/Hooks/Auth/useAuth";
 
-const Sidebar = () => {
+const Sidebar = ({ setOpenTaskForm }) => {
   const { logOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -44,21 +44,15 @@ const Sidebar = () => {
           </div>
           <nav className="mt-4">
             <ul className="space-y-2">
-              <li>
-                <Link
-                  href="/home"
-                  className="block px-4 py-2 bg-[#1d1d1d] hover:bg-[#161616]"
-                >
+              <li onClick={() => setOpenTaskForm(true)}>
+                <button className="block px-4 py-2 bg-[#1d1d1d] hover:bg-[#161616] w-full">
                   Add Task
-                </Link>
+                </button>
               </li>
               <li>
-                <Link
-                  href="/home"
-                  className="block px-4 py-2 bg-[#1d1d1d] hover:bg-[#161616]"
-                >
+                <button className="block px-4 py-2 bg-[#1d1d1d] hover:bg-[#161616] w-full">
                   Add Board
-                </Link>
+                </button>
               </li>
               <li>
                 <button
