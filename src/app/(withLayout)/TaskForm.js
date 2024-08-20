@@ -1,10 +1,12 @@
 import useAuth from "@/Hooks/Auth/useAuth";
+import useAxiosPublic from "@/Hooks/Axios/useAxiosPublic";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
   const { loading, setLoading, tasks, setTasks, uId, setUpdateTaskList } =
     useAuth();
+  const axiosPublic = useAxiosPublic();
   const {
     register,
     trigger,
@@ -17,7 +19,7 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
     const isValid = await trigger();
     console.log({ ...data, status: "todo" });
     if (isValid) {
-      const res = await axios.post("/add-task", {
+      const res = await axiosPublic.post("/add-task", {
         ...data,
         category: "todo",
         uId,
@@ -39,18 +41,18 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
       onSubmit={handleSubmit(onSubmit)}
       className="max-w-md p-10 mx-auto bg-[#ffffff] rounded-lg shadow-xl"
     >
-      <p
-        className="text-black cursor-pointer"
-        onClick={() => setOpenTaskForm(false)}
-      >
-        X
-      </p>
       <div className="mb-4">
         <label
           htmlFor="title"
           className="flex justify-between mb-2 font-bold text-black"
         >
-          Title
+          <p>Title</p>
+          <p
+            className="text-black cursor-pointer"
+            onClick={() => setOpenTaskForm(false)}
+          >
+            X
+          </p>
         </label>
         <input
           {...register("title", { required: "Title is required" })}
