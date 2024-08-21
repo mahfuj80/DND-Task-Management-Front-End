@@ -219,6 +219,7 @@ const AllTask = () => {
               </div>
             )}
           </Droppable>
+
           <Droppable droppableId="done">
             {(provided) => (
               <div

@@ -3,7 +3,7 @@ import useAuth from "../Auth/useAuth";
 import { useRouter } from "next/navigation";
 
 const axiosSecure = axios.create({
-  baseURL: "http://localhost:5000",
+  baseURL: "https://dnd-task-management-backend.vercel.app",
 });
 
 const useAxiosSecure = () => {

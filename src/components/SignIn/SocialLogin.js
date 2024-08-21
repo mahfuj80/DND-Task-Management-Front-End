@@ -13,7 +13,7 @@ const SocialLogin = () => {
 
   useEffect(() => {
     if (user) {
-      const redirectPath = router.query?.redirect || "/dashboard"; // Use query parameter for redirect path or default to '/'
+      const redirectPath = router.query?.redirect || "/"; // Use query parameter for redirect path or default to '/'
       router.push(redirectPath);
     }
   }, [user, router]);
@@ -25,11 +25,21 @@ const SocialLogin = () => {
           name: result?.user?.displayName,
           email: result?.user?.email,
           image: result?.user?.photoURL,
-          role: "user",
         };
-        axiosPublic.post("/users", userInfo).then(() => {
+        axiosPublic.post("/users", userInfo).then((res) => {
+          if (res?.data?.message === "success") {
+            console.log("user added to the database");
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "User Successfully Created",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            router.push(location?.state ? location?.state : "/");
+          }
           Swal.fire("Logged In", "You Successfully Logged In", "success");
-          const redirectPath = router.query?.redirect || "/dashboard";
+          const redirectPath = router.query?.redirect || "/";
           router.push(redirectPath);
         });
       })
@@ -45,9 +55,19 @@ const SocialLogin = () => {
           name: result?.user?.displayName,
           email: result?.user?.email,
           image: result?.user?.photoURL,
-          role: "user",
         };
-        axiosPublic.post("/users", userInfo).then(() => {
+        axiosPublic.post("/users", userInfo).then((res) => {
+          if (res?.data?.message === "success") {
+            console.log("user added to the database");
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "User Successfully Created",
+              showConfirmButton: false,
+              timer: 1500,
+            });
+            router.push(location?.state ? location?.state : "/");
+          }
           Swal.fire("Logged In", "You Successfully Logged In", "success");
           const redirectPath = router.query?.redirect || "/";
           router.push(redirectPath);

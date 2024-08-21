@@ -57,10 +57,10 @@ const RegisterPage = () => {
     // Check for special character
     if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
       Swal.fire({
-        title: 'Error!',
-        text: 'Password should contain at least one special character.',
-        icon: 'error',
-        confirmButtonText: 'Ok',
+        title: "Error!",
+        text: "Password should contain at least one special character.",
+        icon: "error",
+        confirmButtonText: "Ok",
       });
       return;
     }
@@ -82,19 +82,19 @@ const RegisterPage = () => {
               router.push("/");
               window.location.reload();
               console.log(userInfo);
-              // axiosPublic.post("/users", userInfo).then((res) => {
-              //   if (res?.data?.insertedId) {
-              //     console.log("user added to the database");
-              //     Swal.fire({
-              //       position: "top-end",
-              //       icon: "success",
-              //       title: "User Successfully Created",
-              //       showConfirmButton: false,
-              //       timer: 1500,
-              //     });
-              //     router.push(location?.state ? location?.state : "/");
-              //   }
-              // });
+              axiosPublic.post("/users", userInfo).then((res) => {
+                if (res?.data?.message === "success") {
+                  console.log("user added to the database");
+                  Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "User Successfully Created",
+                    showConfirmButton: false,
+                    timer: 1500,
+                  });
+                  router.push(location?.state ? location?.state : "/");
+                }
+              });
             })
             .catch((error) => {
               // Handle Errors here.
@@ -119,8 +119,6 @@ const RegisterPage = () => {
       });
   };
 
-
-  
   return (
     <div className="flex items-center justify-center min-h-screen px-4 py-6 fle-col">
       <div className="  rounded-lg p-6 max-w-md shadow-[0_2px_22px_-4px_rgba(93,96,127,0.2)] max-md:mx-auto">
