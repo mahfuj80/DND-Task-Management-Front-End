@@ -7,9 +7,10 @@ import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import useAxiosPublic from "@/Hooks/Axios/useAxiosPublic";
 import useAuth from "@/Hooks/Auth/useAuth";
+import useAxiosSecure from "@/Hooks/Axios/useAxiosSecure";
 
 const AllTask = () => {
-  const axios = useAxiosPublic();
+  const axios = useAxiosSecure();
   const [tasks, setTasks] = useState([]);
   const {
     loading,
@@ -23,27 +24,22 @@ const AllTask = () => {
   const [openPop, setOpenPop] = useState(false);
   const [updateInfo, setUpdateInfo] = useState({});
 
-  useEffect(() => {
-    async function getTasks() {
-      try {
-        const res = await axios.get(`/tasks/${uId}`);
-        console.log("all task by uid:", res.data);
-        setTasks(res.data);
-      } catch (error) {
-        console.error("Error fetching tasks:", error);
-      }
-    }
-
-    getTasks(); // Call the function here
-  }, [uId, axios]);
-
-  useEffect(() => {
-    async function getTasks() {
+  async function getTasks() {
+    try {
       const res = await axios.get(`/tasks/${uId}`);
       console.log("all task by uid:", res.data);
       setTasks(res.data);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
     }
-  }, [uId, axios]);
+  }
+  useEffect(() => {
+    getTasks(); // Call the function here
+  }, []);
+
+  useEffect(() => {
+    getTasks();
+  }, [updateTaskList]);
 
   const onDragEnd = async (result) => {
     const { destination, source, draggableId } = result;
@@ -74,8 +70,8 @@ const AllTask = () => {
   async function handleDelete(id) {
     console.log(id);
     const res = await axios.delete(`/tasks/${id}`);
-    // console.log(res.data);
-    if (res.data.deletedCount) {
+    console.log(res.data);
+    if (res.data.message) {
       Swal.fire({
         title: "Congrats!",
         text: `Your task Successfully deleted!`,

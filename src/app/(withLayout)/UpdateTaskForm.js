@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
-import axios from "axios";
 import Swal from "sweetalert2";
 import useAuth from "@/Hooks/Auth/useAuth";
+import useAxiosPublic from "@/Hooks/Axios/useAxiosPublic";
+import useAxiosSecure from "@/Hooks/Axios/useAxiosSecure";
 
 const UpdateTaskForm = ({
   updateInfo,
@@ -11,6 +12,7 @@ const UpdateTaskForm = ({
   setUpdateTaskList,
 }) => {
   const { loading, setLoading, tasks, setTasks, uId } = useAuth();
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     trigger,
@@ -23,7 +25,7 @@ const UpdateTaskForm = ({
     const isValid = await trigger();
     const { deadline, description, priority, title } = data;
     if (isValid) {
-      const res = await axios.put(`/tasks/update-task/${updateInfo._id}`, {
+      const res = await axiosSecure.put(`/tasks/update-task/${updateInfo.id}`, {
         deadline,
         description,
         priority,
@@ -50,7 +52,13 @@ const UpdateTaskForm = ({
     >
       <div className="mb-4">
         <label htmlFor="title" className="block mb-2 font-bold text-gray-700">
-          Title
+          <p>Title</p>
+          <p
+            className="text-black cursor-pointer"
+            onClick={() => setOpenPop(false)}
+          >
+            X
+          </p>
         </label>
         <input
           placeholder={updateInfo.title}

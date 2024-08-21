@@ -1,12 +1,12 @@
 import useAuth from "@/Hooks/Auth/useAuth";
-import useAxiosPublic from "@/Hooks/Axios/useAxiosPublic";
+import useAxiosSecure from "@/Hooks/Axios/useAxiosSecure";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
   const { loading, setLoading, tasks, setTasks, uId, setUpdateTaskList } =
     useAuth();
-  const axiosPublic = useAxiosPublic();
+  const axiosSecure = useAxiosSecure();
   const {
     register,
     trigger,
@@ -19,18 +19,20 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
     const isValid = await trigger();
     console.log({ ...data, status: "todo" });
     if (isValid) {
-      const res = await axiosPublic.post("/add-task", {
+      const res = await axiosSecure.post("/add-task", {
         ...data,
         category: "todo",
         uId,
       });
-      if (res.data.acknowledged) {
+      console.log(res.data);
+      if (res.data.message) {
         setUpdateTaskList((prev) => prev + 1);
         Swal.fire({
           title: "Congrats!",
           text: `Your task Successfully added!`,
           icon: "success",
         });
+        setOpenTaskForm(false);
         reset();
       }
     }

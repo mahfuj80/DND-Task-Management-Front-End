@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 const axiosSecure = axios.create({
   baseURL: "http://localhost:5000",
 });
+
 const useAxiosSecure = () => {
   const router = useRouter();
   const { logOut } = useAuth();
@@ -32,7 +33,7 @@ const useAxiosSecure = () => {
       console.log(`status error in the interceptor `, status);
       if (status === 401 || status === 403) {
         await logOut();
-        router.push("/login");
+        router.push("/sign-in");
       }
       return Promise.reject(error);
     }
