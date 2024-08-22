@@ -3,19 +3,22 @@ import PropTypes from "prop-types";
 import { useRouter } from "next/navigation";
 import useAuth from "@/Hooks/Auth/useAuth";
 import { useEffect } from "react";
+import Loading from "@/app/loading";
 
 const PrivateRoute = ({ children }) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
+  console.log(loading);
   useEffect(() => {
-    if (!user) {
-      router.push(`/`);
+    if (!user && !loading) {
+      router.push("/");
     }
-  }, [user, router]);
+  }, [user, router, loading]);
 
   if (!user) {
     // Render nothing or a loading spinner until the redirect happens
+    <Loading />;
     return null;
   }
 

@@ -5,7 +5,6 @@ import { MdDeleteForever } from "react-icons/md";
 import UpdateTaskForm from "./UpdateTaskForm";
 import Swal from "sweetalert2";
 import { motion } from "framer-motion";
-import useAxiosPublic from "@/Hooks/Axios/useAxiosPublic";
 import useAuth from "@/Hooks/Auth/useAuth";
 import useAxiosSecure from "@/Hooks/Axios/useAxiosSecure";
 
@@ -108,6 +107,10 @@ const AllTask = () => {
   function handleUpdate(task) {
     setUpdateInfo(task);
     setOpenPop(true);
+  }
+
+  if (loading) {
+    return <>Loading</>;
   }
 
   return (
