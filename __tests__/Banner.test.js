@@ -3,6 +3,7 @@ import Banner from "@/components/Home/Banner";
 
 // Mock next/image to avoid issues with `fetchPriority` and image URL processing
 jest.mock("next/image", () => {
+  // eslint-disable-next-line react/display-name,
   return (props) => <img {...props} />;
 });
 

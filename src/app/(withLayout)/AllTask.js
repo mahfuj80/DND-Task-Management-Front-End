@@ -20,9 +20,24 @@ const AllTask = () => {
     setAllTasks,
     updateTaskList,
     setUpdateTaskList,
+    setBoardList,
+    boardList,
   } = useAuth();
   const [openPop, setOpenPop] = useState(false);
   const [updateInfo, setUpdateInfo] = useState({});
+
+  async function getBoards() {
+    try {
+      const res = await axios.get(`/categories/${uId}`);
+      console.log("all boards:", res.data);
+      setBoardList(res.data);
+      if (res.data) {
+        getTasks();
+      }
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  }
 
   async function getTasks() {
     try {
@@ -33,8 +48,9 @@ const AllTask = () => {
       console.error("Error fetching tasks:", error);
     }
   }
+
   useEffect(() => {
-    getTasks(); // Call the function here
+    getBoards();
   }, []);
 
   useEffect(() => {
@@ -43,6 +59,8 @@ const AllTask = () => {
 
   const onDragEnd = async (result) => {
     const { destination, source, draggableId } = result;
+
+    console.log("Drag result:", result);
 
     if (!destination) {
       return;
@@ -57,14 +75,17 @@ const AllTask = () => {
 
     const updatedTasks = [...tasks];
     const task = updatedTasks.find((t) => t.id === draggableId);
-    task.category = destination.droppableId;
-    console.log(task.category, destination.droppableId, updatedTasks);
-    // console.log(task);
-    const res = await axios.put(`/tasks/update-task-category/${task.id}`, {
-      category: task.category,
-    });
-    // console.log(res.data);
-    setTasks(updatedTasks);
+    if (task) {
+      task.category = destination.droppableId;
+      console.log("Task updated:", task);
+      const res = await axios.put(`/tasks/update-task-category/${task.id}`, {
+        category: task.category,
+      });
+      console.log("Update response:", res.data);
+      setTasks(updatedTasks);
+    } else {
+      console.error("Task not found:", draggableId);
+    }
   };
 
   async function handleDelete(id) {
@@ -100,67 +121,71 @@ const AllTask = () => {
           }}
           className="container flex flex-col gap-10 p-4 mx-auto todo-list md:flex-row"
         >
-          <Droppable droppableId="todo">
-            {(provided) => (
-              <div
-                className="p-4 text-white bg-blue-700 rounded-sm category md:w-1/3"
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-              >
-                <h2 className="mb-5 text-4xl font-bold text-yellow-400">
-                  Todo
-                </h2>
-                {tasks
-                  .filter((task) => task.category === "todo")
-                  .map((task, index) => (
-                    <Draggable
-                      key={task.id}
-                      draggableId={task.id}
-                      index={index}
-                    >
-                      {(provided) => (
-                        <div
-                          className="mb-4 task"
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                          ref={provided.innerRef}
+          {boardList?.map((list) => {
+            return (
+              <Droppable droppableId={list.boardname} key={list.id}>
+                {(provided) => (
+                  <div
+                    className="p-4 text-white bg-blue-700 rounded-sm category md:w-1/3"
+                    {...provided.droppableProps}
+                    ref={provided.innerRef}
+                  >
+                    <h2 className="mb-5 text-4xl font-bold text-yellow-400">
+                      {list.boardname}
+                    </h2>
+                    {tasks
+                      .filter((task) => task.category === list.boardname)
+                      .map((task, index) => (
+                        <Draggable
+                          key={task.id}
+                          draggableId={task.id.toString()}
+                          index={index}
                         >
-                          <div className="flex flex-row items-center justify-between gap-2">
-                            <div className="flex-1">
-                              <p>Task Title</p>
-                              <p>{task.title}</p>
-                            </div>
-                            <div className="flex-1">
-                              <p>Due date</p>
-                              <p>{task.deadline}</p>
-                            </div>
-                            <button
-                              onClick={() => handleUpdate(task)}
-                              className="h-auto p-2 ml-2 btn min-h-min"
+                          {(provided) => (
+                            <div
+                              className="mb-4 task"
+                              {...provided.draggableProps}
+                              {...provided.dragHandleProps}
+                              ref={provided.innerRef}
                             >
-                              <FaRegEdit />
-                            </button>
-                            <button
-                              className="h-auto p-2 btn min-h-min"
-                              onClick={() => handleDelete(task.id)}
-                            >
-                              <MdDeleteForever />
-                            </button>
-                          </div>
-                          <div>
-                            <p>Task Description</p>
-                            <p>{task.description}</p>
-                          </div>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+                              <div className="flex flex-row items-center justify-between gap-2">
+                                <div className="flex-1">
+                                  <p>Task Title</p>
+                                  <p>{task.title}</p>
+                                </div>
+                                <div className="flex-1">
+                                  <p>Due date</p>
+                                  <p>{task.deadline}</p>
+                                </div>
+                                <button
+                                  onClick={() => handleUpdate(task)}
+                                  className="h-auto p-2 ml-2 btn min-h-min"
+                                >
+                                  <FaRegEdit />
+                                </button>
+                                <button
+                                  className="h-auto p-2 btn min-h-min"
+                                  onClick={() => handleDelete(task.id)}
+                                >
+                                  <MdDeleteForever />
+                                </button>
+                              </div>
+                              <div>
+                                <p>Task Description</p>
+                                <p>{task.description}</p>
+                              </div>
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            );
+          })}
 
-          <Droppable droppableId="ongoing">
+          {/* <Droppable droppableId="ongoing">
             {(provided) => (
               <div
                 className="p-4 text-white bg-blue-700 rounded-sm category md:w-1/3"
@@ -175,7 +200,7 @@ const AllTask = () => {
                   .map((task, index) => (
                     <Draggable
                       key={task.id}
-                      draggableId={task.id}
+                      draggableId={task.id.toString()}
                       index={index}
                     >
                       {(provided) => (
@@ -235,7 +260,7 @@ const AllTask = () => {
                   .map((task, index) => (
                     <Draggable
                       key={task.id}
-                      draggableId={task.id}
+                      draggableId={task.id.toString()}
                       index={index}
                     >
                       {(provided) => (
@@ -278,7 +303,7 @@ const AllTask = () => {
                 {provided.placeholder}
               </div>
             )}
-          </Droppable>
+          </Droppable> */}
         </motion.div>
       </DragDropContext>
       <div
@@ -292,6 +317,7 @@ const AllTask = () => {
           setUpdateInfo={setUpdateInfo}
           openPop={openPop}
           setOpenPop={setOpenPop}
+          boardList={boardList}
         />
       </div>
     </>

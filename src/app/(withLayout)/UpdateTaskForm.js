@@ -10,6 +10,7 @@ const UpdateTaskForm = ({
   openPop,
   setOpenPop,
   setUpdateTaskList,
+  boardList,
 }) => {
   const { loading, setLoading, tasks, setTasks, uId } = useAuth();
   const axiosSecure = useAxiosSecure();
@@ -23,13 +24,14 @@ const UpdateTaskForm = ({
 
   async function onSubmit(data) {
     const isValid = await trigger();
-    const { deadline, description, priority, title } = data;
+    const { deadline, description, priority, title, category } = data;
     if (isValid) {
       const res = await axiosSecure.put(`/tasks/update-task/${updateInfo.id}`, {
         deadline,
         description,
         priority,
         title,
+        category,
       });
       if (res.data) {
         setUpdateInfo({});
@@ -51,7 +53,10 @@ const UpdateTaskForm = ({
       className="w-full max-w-md p-6 mx-auto bg-white rounded-lg shadow-xl"
     >
       <div className="mb-4">
-        <label htmlFor="title" className="block mb-2 font-bold text-gray-700">
+        <label
+          htmlFor="title"
+          className="flex justify-between mb-2 font-bold text-gray-700"
+        >
           <p>Title</p>
           <p
             className="text-black cursor-pointer"
@@ -88,6 +93,38 @@ const UpdateTaskForm = ({
         {errors.description && (
           <span className="text-sm text-red-500">
             {errors.description.message}
+          </span>
+        )}
+      </div>
+
+      <div className="mb-4">
+        <label
+          htmlFor="category"
+          className="block mb-2 font-bold text-black bg-black"
+        >
+          Category
+        </label>
+
+        <select
+          id="category"
+          className="w-full px-3 py-2 text-black border rounded-lg focus:outline-none focus:border-blue-500"
+          {...register("category", { required: "category is required" })}
+        >
+          {boardList.map((list) => {
+            return (
+              <option
+                className="text-black"
+                value={list.boardname}
+                key={list.id}
+              >
+                {list.boardName}
+              </option>
+            );
+          })}
+        </select>
+        {errors.category && (
+          <span className="text-sm text-red-500">
+            {errors.category.message}
           </span>
         )}
       </div>

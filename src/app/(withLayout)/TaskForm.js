@@ -4,8 +4,15 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
-  const { loading, setLoading, tasks, setTasks, uId, setUpdateTaskList } =
-    useAuth();
+  const {
+    loading,
+    setLoading,
+    tasks,
+    setTasks,
+    uId,
+    setUpdateTaskList,
+    boardList,
+  } = useAuth();
   const axiosSecure = useAxiosSecure();
   const {
     register,
@@ -17,11 +24,10 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
 
   async function onSubmit(data) {
     const isValid = await trigger();
-    console.log({ ...data, status: "todo" });
+
     if (isValid) {
       const res = await axiosSecure.post("/add-task", {
         ...data,
-        category: "todo",
         uId,
       });
       console.log(res.data);
@@ -82,6 +88,38 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
         {errors.description && (
           <span className="text-sm text-red-500">
             {errors.description.message}
+          </span>
+        )}
+      </div>
+
+      <div className="mb-4">
+        <label
+          htmlFor="category"
+          className="block mb-2 font-bold text-black bg-black"
+        >
+          Category
+        </label>
+
+        <select
+          id="category"
+          className="w-full px-3 py-2 text-black border rounded-lg focus:outline-none focus:border-blue-500"
+          {...register("category", { required: "category is required" })}
+        >
+          {boardList.map((list) => {
+            return (
+              <option
+                className="text-black"
+                value={list.boardname}
+                key={list.id}
+              >
+                {list.boardName}
+              </option>
+            );
+          })}
+        </select>
+        {errors.category && (
+          <span className="text-sm text-red-500">
+            {errors.category.message}
           </span>
         )}
       </div>
