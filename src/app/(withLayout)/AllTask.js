@@ -10,7 +10,7 @@ import useAxiosSecure from "@/Hooks/Axios/useAxiosSecure";
 import Loading from "../loading";
 
 const AllTask = () => {
-  const axios = useAxiosSecure();
+  const axiosSecure = useAxiosSecure();
   const [tasks, setTasks] = useState([]);
   const {
     loading,
@@ -29,7 +29,7 @@ const AllTask = () => {
   // Get Task
   async function getTasks() {
     try {
-      const res = await axios.get(`/tasks/${uId}`);
+      const res = await axiosSecure.get(`/tasks/${uId}`);
       console.log("all task by uid:", res.data);
       setTasks(res.data);
     } catch (error) {
@@ -37,10 +37,58 @@ const AllTask = () => {
     }
   }
 
+  //Update Task
+  function handleUpdate(task) {
+    setUpdateInfo(task);
+    setOpenPop(true);
+  }
+
+  //Delete Single Task
+  async function handleDelete(id) {
+    try {
+      // Show confirmation dialog
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "This action will delete the task and cannot be undone!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "Cancel",
+      });
+
+      // Proceed if the user confirmed the action
+      if (result.isConfirmed) {
+        console.log(id);
+
+        // Perform the delete operation
+        const res = await axiosSecure.delete(`/tasks/${id}`);
+        console.log(res.data);
+
+        if (res.data.message) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your task has been successfully deleted.",
+            icon: "success",
+          });
+          setUpdateTaskList((prev) => prev + 1);
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "There was a problem deleting the task. Please try again later.",
+        icon: "error",
+      });
+    }
+  }
+
   // Get Boards
   async function getBoards() {
     try {
-      const res = await axios.get(`/categories/${uId}`);
+      const res = await axiosSecure.get(`/categories/${uId}`);
       console.log("all boards:", res.data);
       setBoardList(res.data);
       if (res.data) {
@@ -51,9 +99,45 @@ const AllTask = () => {
     }
   }
 
-  // useEffect(() => {
-  //   getTasks();
-  // }, [updateTaskList]);
+  // Delete Boards
+  async function deleteBoard(boardId) {
+    try {
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "This action will delete the board and all associated tasks. This cannot be undone!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "Cancel",
+      });
+
+      if (result.isConfirmed) {
+        // Send DELETE request to backend
+        const response = await axiosSecure.delete(`/categories/${boardId}`);
+
+        // Show success message
+        Swal.fire({
+          title: "Deleted!",
+          text: response.data.message,
+          icon: "success",
+        });
+
+        // Optionally, you can refresh the board board or perform other actions here
+        // Example: setBoardList((prev) => prev.filter((board) => board.id !== boardId));
+      }
+    } catch (error) {
+      console.error("Error deleting board:", error);
+
+      // Show error message
+      Swal.fire({
+        title: "Error!",
+        text: "There was a problem deleting the board. Please try again later.",
+        icon: "error",
+      });
+    }
+  }
 
   useEffect(() => {
     getBoards();
@@ -83,9 +167,12 @@ const AllTask = () => {
     if (task) {
       task.category = destination.droppableId;
       console.log("Task updated:", task);
-      const res = await axios.put(`/tasks/update-task-category/${task.id}`, {
-        category: task.category,
-      });
+      const res = await axiosSecure.put(
+        `/tasks/update-task-category/${task.id}`,
+        {
+          category: task.category,
+        }
+      );
       console.log("Update response:", res.data);
       setTasks(updatedTasks);
     } else {
@@ -93,54 +180,7 @@ const AllTask = () => {
     }
   };
 
-  // Handle Delete Single Task
-  async function handleDelete(id) {
-    try {
-      // Show confirmation dialog
-      const result = await Swal.fire({
-        title: "Are you sure?",
-        text: "This action will delete the task and cannot be undone!",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
-        confirmButtonText: "Yes, delete it!",
-        cancelButtonText: "Cancel",
-      });
-
-      // Proceed if the user confirmed the action
-      if (result.isConfirmed) {
-        console.log(id);
-
-        // Perform the delete operation
-        const res = await axios.delete(`/tasks/${id}`);
-        console.log(res.data);
-
-        if (res.data.message) {
-          Swal.fire({
-            title: "Deleted!",
-            text: "Your task has been successfully deleted.",
-            icon: "success",
-          });
-          setUpdateTaskList((prev) => prev + 1);
-        }
-      }
-    } catch (error) {
-      console.error("Error deleting task:", error);
-      Swal.fire({
-        title: "Error!",
-        text: "There was a problem deleting the task. Please try again later.",
-        icon: "error",
-      });
-    }
-  }
-
-  // Handle Update Task
-  function handleUpdate(task) {
-    setUpdateInfo(task);
-    setOpenPop(true);
-  }
-
+  // Loading User
   if (loading) {
     return (
       <>
@@ -151,6 +191,7 @@ const AllTask = () => {
 
   return (
     <>
+      {/* All Boards  */}
       <DragDropContext onDragEnd={onDragEnd}>
         <motion.div
           initial="hidden"
@@ -161,11 +202,12 @@ const AllTask = () => {
             hidden: { opacity: 0, x: -50 },
             visible: { opacity: 1, x: 0 },
           }}
-          className="container flex flex-col gap-8 p-4 mx-auto todo-list md:flex-row flex-wrap w-full justify-center"
+          className="container flex flex-col gap-8 p-4 mx-auto todo-board md:flex-row flex-wrap w-full justify-center"
         >
-          {boardList?.map((list) => {
+          {/* Single Board */}
+          {boardList?.map((board) => {
             return (
-              <Droppable droppableId={list?.boardname} key={list.id}>
+              <Droppable droppableId={board?.boardname} key={board.id}>
                 {(provided) => (
                   <div
                     className="p-4 text-white bg-[#1f1f1f] rounded-sm category md:w-1/4"
@@ -173,13 +215,16 @@ const AllTask = () => {
                     ref={provided.innerRef}
                   >
                     <div className="flex justify-between mb-5 md:text-3xl font-bold text-white">
-                      <p>{list.boardname}</p>
-                      <button className=" text-red-500">
+                      <p>{board.boardname}</p>
+                      <button
+                        onClick={() => deleteBoard(board.id)}
+                        className=" text-red-300 hover:text-red-500"
+                      >
                         <MdDeleteForever />
                       </button>
                     </div>
                     {tasks
-                      .filter((task) => task.category === list.boardname)
+                      .filter((task) => task.category === board.boardname)
                       .map((task, index) => (
                         <Draggable
                           key={task.id}
@@ -194,7 +239,7 @@ const AllTask = () => {
                               ref={provided.innerRef}
                             >
                               <div className="flex justify-between">
-                                {/* Title And DadeLine */}
+                                {/* Title And Deadline */}
                                 <div className=" space-y-2">
                                   <div className="">
                                     <p className="italic">Task Title:</p>

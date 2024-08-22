@@ -1,31 +1,24 @@
 // components/Sidebar.js
 "use client";
-
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 import { useState } from "react";
-import Link from "next/link";
 import useAuth from "@/Hooks/Auth/useAuth";
 import useAxiosSecure from "@/Hooks/Axios/useAxiosSecure";
-import useAxiosPublic from "@/Hooks/Axios/useAxiosPublic";
 import Swal from "sweetalert2";
 
 const Sidebar = ({ setOpenTaskForm }) => {
   const { logOut, boardList, setBoardList, uId } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [openPop, setOpenPop] = useState(false);
-  const [boardName, setBoardName] = useState("");
-  const axios = useAxiosPublic();
+  const [openBoardPop, setOpenBoardPop] = useState(false);
+  const axiosSecure = useAxiosSecure();
+
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
 
-  function addBoard() {
-    setOpenPop(true);
-  }
-
   async function addCategory(categoryInfo) {
     try {
-      const res = await axios.post("/categories", categoryInfo);
+      const res = await axiosSecure.post("/categories", categoryInfo);
       console.log("Category added:", res.data);
       setBoardList([]); // If you want to add the new category to the list
       Swal.fire({
@@ -41,17 +34,29 @@ const Sidebar = ({ setOpenTaskForm }) => {
     }
   }
 
-  function handleBoard(e) {
+  async function addBoard(e) {
     e.preventDefault();
     // setBoardList((prev) => prev.concat({ boardName, id: Date.now(), uId }));
-
+    const form = new FormData(e.currentTarget);
+    const boardName = form.get("boardName");
     const categoryInfo = {
       id: Date.now(),
       boardName: boardName,
       uid: uId,
     };
-
-    addCategory(categoryInfo);
+    try {
+      const res = await axiosSecure.post("/categories", categoryInfo);
+      console.log("Category added:", res.data);
+      if (res.data.id) {
+        setOpenBoardPop(false);
+        setBoardList([]); // If you want to add the new category to the list
+      }
+      Swal.fire("Board Added", "Category Successfully Created", "success");
+    } catch (error) {
+      console.error("Error adding category:", error);
+      Swal.fire("Error", "Something Went Wrong!!", "error");
+      // Optionally, handle errors (e.g., display an error message)
+    }
   }
 
   return (
@@ -92,7 +97,7 @@ const Sidebar = ({ setOpenTaskForm }) => {
                 </li>
                 <li>
                   <button
-                    onClick={addBoard}
+                    onClick={() => setOpenBoardPop(true)}
                     className="block px-4 py-2 bg-[#1d1d1d] hover:bg-[#161616] w-full"
                   >
                     Add Board
@@ -111,20 +116,44 @@ const Sidebar = ({ setOpenTaskForm }) => {
             </nav>
           </div>
         </aside>
+      </div>
 
-        <div
-          className={`h-screen flex flex-col items-center justify-center fixed inset-0 bg-black bg-opacity-90 ${
-            openPop ? "block" : "hidden"
-          }`}
-        >
-          <button onClick={() => setOpenPop(false)}>Close</button>
-          <form onSubmit={handleBoard}>
+      {/* Add Board Modal */}
+      <div
+        className={`h-screen flex flex-col items-center justify-center fixed inset-0 bg-black bg-opacity-90 ${
+          openBoardPop ? "block" : "hidden"
+        }`}
+      >
+        <div className="bg-white rounded-lg p-4 text-black relative">
+          <form onSubmit={addBoard}>
+            <button
+              onClick={() => setOpenBoardPop(false)}
+              className="absolute right-4 font-bold "
+            >
+              X
+            </button>
+            {/* Input */}
+            <label
+              htmlFor="boardName"
+              className="block mb-2 font-bold text-black"
+            >
+              Board Name
+            </label>
             <input
+              required
+              id="boardName"
+              name="boardName"
               placeholder="Add Board"
-              className="text-black"
-              onChange={(e) => setBoardName(e.target.value)}
+              className="w-full px-3 py-2 text-black border rounded-lg focus:outline-none focus:border-blue-500"
             />
-            <button type="submit"> Add Board</button>
+
+            {/* Submit Button */}
+            <button
+              className="px-4 py-2 w-full mt-4 font-bold text-white bg-black rounded  hover:bg-[#141414] focus:outline focus:shadow-outline"
+              type="submit"
+            >
+              Submit
+            </button>
           </form>
         </div>
       </div>

@@ -13,7 +13,9 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
     setUpdateTaskList,
     boardList,
   } = useAuth();
+
   const axiosSecure = useAxiosSecure();
+
   const {
     register,
     trigger,
@@ -22,7 +24,8 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
     formState: { errors },
   } = useForm();
 
-  async function onSubmit(data) {
+  // Add Task
+  async function addTask(data) {
     const isValid = await trigger();
 
     if (isValid) {
@@ -46,9 +49,10 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
 
   return (
     <form
-      onSubmit={handleSubmit(onSubmit)}
+      onSubmit={handleSubmit(addTask)}
       className="max-w-md p-10 mx-auto bg-[#ffffff] rounded-lg shadow-xl"
     >
+      {/* Title */}
       <div className="mb-4">
         <label
           htmlFor="title"
@@ -73,6 +77,7 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
         )}
       </div>
 
+      {/* Description */}
       <div className="mb-4">
         <label
           htmlFor="description"
@@ -92,6 +97,7 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
         )}
       </div>
 
+      {/* Category */}
       <div className="mb-4">
         <label
           htmlFor="category"
@@ -124,6 +130,7 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
         )}
       </div>
 
+      {/* Dadeline */}
       <div className="mb-4">
         <label htmlFor="deadline" className="block mb-2 font-bold text-black">
           Deadline
@@ -141,6 +148,7 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
         )}
       </div>
 
+      {/* Priority */}
       <div className="mb-4">
         <label htmlFor="priority" className="block mb-2 font-bold text-black">
           Priority
@@ -161,6 +169,7 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
         )}
       </div>
 
+      {/* Submit Button */}
       <button
         type="submit"
         className="px-4 py-2 w-full mt-4 font-bold text-white bg-black rounded  hover:bg-[#141414] focus:outline focus:shadow-outline"

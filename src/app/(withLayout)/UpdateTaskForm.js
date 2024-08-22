@@ -1,7 +1,6 @@
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import useAuth from "@/Hooks/Auth/useAuth";
-import useAxiosPublic from "@/Hooks/Axios/useAxiosPublic";
 import useAxiosSecure from "@/Hooks/Axios/useAxiosSecure";
 
 const UpdateTaskForm = ({
@@ -52,6 +51,7 @@ const UpdateTaskForm = ({
       onSubmit={handleSubmit(onSubmit)}
       className="w-full max-w-md p-6 mx-auto bg-white rounded-lg shadow-xl"
     >
+      {/* Title */}
       <div className="mb-4">
         <label
           htmlFor="title"
@@ -70,13 +70,14 @@ const UpdateTaskForm = ({
           {...register("title", { required: "Title is required" })}
           id="title"
           type="text"
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500 text-black"
         />
         {errors.title && (
           <span className="text-sm text-red-500">{errors.title.message}</span>
         )}
       </div>
 
+      {/* Description */}
       <div className="mb-4">
         <label
           htmlFor="description"
@@ -88,7 +89,7 @@ const UpdateTaskForm = ({
           placeholder={updateInfo.description}
           {...register("description", { required: "Description is required" })}
           id="description"
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500 text-black"
         />
         {errors.description && (
           <span className="text-sm text-red-500">
@@ -97,26 +98,20 @@ const UpdateTaskForm = ({
         )}
       </div>
 
+      {/* Category / Board */}
       <div className="mb-4">
-        <label
-          htmlFor="category"
-          className="block mb-2 font-bold text-black bg-black"
-        >
+        <label htmlFor="category" className="mb-2 font-bold text-black ">
           Category
         </label>
 
         <select
           id="category"
-          className="w-full px-3 py-2 text-black border rounded-lg focus:outline-none focus:border-blue-500"
+          className="w-full px-3 py-2 text-black border rounded-lg focus:outline-none "
           {...register("category", { required: "category is required" })}
         >
           {boardList.map((list) => {
             return (
-              <option
-                className="text-black"
-                value={list.boardname}
-                key={list.id}
-              >
+              <option value={list.boardname} key={list.id}>
                 {list.boardName}
               </option>
             );
@@ -129,6 +124,7 @@ const UpdateTaskForm = ({
         )}
       </div>
 
+      {/* Dateline */}
       <div className="mb-4">
         <label
           htmlFor="deadline"
@@ -141,7 +137,7 @@ const UpdateTaskForm = ({
           {...register("deadline", { required: "Deadline is required" })}
           id="deadline"
           type="date"
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500 text-black"
         />
         {errors.deadline && (
           <span className="text-sm text-red-500">
@@ -150,6 +146,7 @@ const UpdateTaskForm = ({
         )}
       </div>
 
+      {/* Priority */}
       <div className="mb-4">
         <label
           htmlFor="priority"
@@ -160,7 +157,7 @@ const UpdateTaskForm = ({
         <select
           {...register("priority", { required: "Priority is required" })}
           id="priority"
-          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+          className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500 text-black"
         >
           <option value="low">Low</option>
           <option value="moderate">Moderate</option>
@@ -173,9 +170,10 @@ const UpdateTaskForm = ({
         )}
       </div>
 
+      {/* Submit Button */}
       <button
         type="submit"
-        className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
+        className="px-4 py-2 w-full mt-4 font-bold text-white bg-black rounded  hover:bg-[#141414] focus:outline focus:shadow-outline"
       >
         Update Task
       </button>
