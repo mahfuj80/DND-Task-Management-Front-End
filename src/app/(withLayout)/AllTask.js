@@ -14,14 +14,13 @@ const AllTask = () => {
   const [tasks, setTasks] = useState([]);
   const {
     loading,
-    setLoading,
     uId,
-    allTasks,
-    setAllTasks,
     updateTaskList,
     setUpdateTaskList,
     setBoardList,
     boardList,
+    getDataAgain,
+    setGetDataAgain,
   } = useAuth();
   const [openPop, setOpenPop] = useState(false);
   const [updateInfo, setUpdateInfo] = useState({});
@@ -123,7 +122,7 @@ const AllTask = () => {
           text: response.data.message,
           icon: "success",
         });
-
+        setGetDataAgain(!getDataAgain);
         // Optionally, you can refresh the board board or perform other actions here
         // Example: setBoardList((prev) => prev.filter((board) => board.id !== boardId));
       }
@@ -141,7 +140,7 @@ const AllTask = () => {
 
   useEffect(() => {
     getBoards();
-  }, [updateTaskList]);
+  }, [updateTaskList, getDataAgain]);
 
   // On Drag Update Card Category/Board
   const onDragEnd = async (result) => {
@@ -233,7 +232,7 @@ const AllTask = () => {
                         >
                           {(provided) => (
                             <div
-                              className="mb-4 bg-gray-950 p-2 rounded-lg"
+                              className="mb-4 bg-gray-950 p-2 rounded-lg overflow-hidden"
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               ref={provided.innerRef}
@@ -243,7 +242,7 @@ const AllTask = () => {
                                 <div className=" space-y-2">
                                   <div className="">
                                     <p className="italic">Task Title:</p>
-                                    <p className="text-xl font-medium">
+                                    <p className="text-xl font-medium break-all">
                                       {task.title}
                                     </p>
                                   </div>

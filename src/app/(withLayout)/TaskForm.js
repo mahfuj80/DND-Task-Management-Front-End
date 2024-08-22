@@ -3,17 +3,8 @@ import useAxiosSecure from "@/Hooks/Axios/useAxiosSecure";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
-const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
-  const {
-    loading,
-    setLoading,
-    tasks,
-    setTasks,
-    uId,
-    setUpdateTaskList,
-    boardList,
-  } = useAuth();
-
+const TaskForm = ({ setOpenTaskForm }) => {
+  const { uId, setUpdateTaskList, boardList } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const {
@@ -50,7 +41,7 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
   return (
     <form
       onSubmit={handleSubmit(addTask)}
-      className="max-w-md p-10 mx-auto bg-[#ffffff] rounded-lg shadow-xl"
+      className="max-w-md w-full p-10 mx-auto bg-[#ffffff] rounded-lg shadow-xl"
     >
       {/* Title */}
       <div className="mb-4">
@@ -99,10 +90,7 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
 
       {/* Category */}
       <div className="mb-4">
-        <label
-          htmlFor="category"
-          className="block mb-2 font-bold text-black bg-black"
-        >
+        <label htmlFor="category" className="block mb-2 font-bold text-black ">
           Category
         </label>
 
@@ -130,7 +118,7 @@ const TaskForm = ({ openTaskForm, setOpenTaskForm }) => {
         )}
       </div>
 
-      {/* Dadeline */}
+      {/* Deadline */}
       <div className="mb-4">
         <label htmlFor="deadline" className="block mb-2 font-bold text-black">
           Deadline

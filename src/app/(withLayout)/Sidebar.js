@@ -7,7 +7,7 @@ import useAxiosSecure from "@/Hooks/Axios/useAxiosSecure";
 import Swal from "sweetalert2";
 
 const Sidebar = ({ setOpenTaskForm }) => {
-  const { logOut, boardList, setBoardList, uId } = useAuth();
+  const { logOut, uId, setGetDataAgain, getDataAgain } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
   const [openBoardPop, setOpenBoardPop] = useState(false);
   const axiosSecure = useAxiosSecure();
@@ -15,24 +15,6 @@ const Sidebar = ({ setOpenTaskForm }) => {
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
   };
-
-  async function addCategory(categoryInfo) {
-    try {
-      const res = await axiosSecure.post("/categories", categoryInfo);
-      console.log("Category added:", res.data);
-      setBoardList([]); // If you want to add the new category to the list
-      Swal.fire({
-        position: "top-end",
-        icon: "success",
-        title: "Category Successfully Created",
-        showConfirmButton: false,
-        timer: 1500,
-      });
-    } catch (error) {
-      console.error("Error adding category:", error);
-      // Optionally, handle errors (e.g., display an error message)
-    }
-  }
 
   async function addBoard(e) {
     e.preventDefault();
@@ -48,8 +30,8 @@ const Sidebar = ({ setOpenTaskForm }) => {
       const res = await axiosSecure.post("/categories", categoryInfo);
       console.log("Category added:", res.data);
       if (res.data.id) {
-        setOpenBoardPop(false);
-        setBoardList([]); // If you want to add the new category to the list
+        setOpenBoardPop(false); // If you want to add the new category to the list
+        setGetDataAgain(!getDataAgain);
       }
       Swal.fire("Board Added", "Category Successfully Created", "success");
     } catch (error) {

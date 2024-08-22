@@ -10,7 +10,7 @@ const Footer = () => {
           <div>
             <Link href={"/"}>
               <Image
-              priority
+                priority
                 className="w-auto h-auto"
                 width={200}
                 height={300}
@@ -40,7 +40,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="relative text-lg font-semibold text-white max-sm:cursor-pointer">
+            <h4 className=" text-lg font-semibold text-white max-sm:cursor-pointer">
               Services
             </h4>
 
@@ -73,7 +73,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="relative text-lg font-semibold text-white max-sm:cursor-pointer">
+            <h4 className=" text-lg font-semibold text-white max-sm:cursor-pointer">
               Platforms
             </h4>
             <ul className="mt-6 space-y-5 ">
@@ -105,7 +105,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h4 className="relative text-lg font-semibold text-white max-sm:cursor-pointer">
+            <h4 className="text-lg font-semibold text-white max-sm:cursor-pointer">
               Company
             </h4>
 

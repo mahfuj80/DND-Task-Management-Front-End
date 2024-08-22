@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
   const [updateTaskList, setUpdateTaskList] = useState(0);
   const [uId, setUId] = useState("");
   const [boardList, setBoardList] = useState([]);
-
+  const [getDataAgain, setGetDataAgain] = useState(false);
   const googleProvider = new GoogleAuthProvider();
   const axiosPublic = useAxiosPublic();
   const githubProvider = new GithubAuthProvider();
@@ -96,19 +96,21 @@ const AuthProvider = ({ children }) => {
 
   const authInfo = {
     user,
-    loading,
-    updateTaskList,
-    uId,
     createUser,
-    signIn,
-    googleSignIn,
-    logOut,
+    loading,
     updateUserProfile,
+    googleSignIn,
+    signIn,
+    logOut,
     githubSignIn,
+    uId,
     setUId,
+    updateTaskList,
     setUpdateTaskList,
     boardList,
     setBoardList,
+    setGetDataAgain,
+    getDataAgain,
   };
   return (
     <AuthContext.Provider value={authInfo}>{children}</AuthContext.Provider>
