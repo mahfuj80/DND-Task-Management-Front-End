@@ -57,7 +57,7 @@ const AllTask = () => {
 
   useEffect(() => {
     getBoards();
-  }, []);
+  }, [updateTaskList]);
 
   // On Drag Update Card Category/Board
   const onDragEnd = async (result) => {
@@ -95,16 +95,43 @@ const AllTask = () => {
 
   // Handle Delete Single Task
   async function handleDelete(id) {
-    console.log(id);
-    const res = await axios.delete(`/tasks/${id}`);
-    console.log(res.data);
-    if (res.data.message) {
-      Swal.fire({
-        title: "Congrats!",
-        text: `Your task Successfully deleted!`,
-        icon: "success",
+    try {
+      // Show confirmation dialog
+      const result = await Swal.fire({
+        title: "Are you sure?",
+        text: "This action will delete the task and cannot be undone!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "Cancel",
       });
-      setUpdateTaskList((prev) => prev + 1);
+
+      // Proceed if the user confirmed the action
+      if (result.isConfirmed) {
+        console.log(id);
+
+        // Perform the delete operation
+        const res = await axios.delete(`/tasks/${id}`);
+        console.log(res.data);
+
+        if (res.data.message) {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your task has been successfully deleted.",
+            icon: "success",
+          });
+          setUpdateTaskList((prev) => prev + 1);
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      Swal.fire({
+        title: "Error!",
+        text: "There was a problem deleting the task. Please try again later.",
+        icon: "error",
+      });
     }
   }
 
