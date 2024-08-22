@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
 const TaskForm = ({ setOpenTaskForm }) => {
-  const { uId, setUpdateTaskList, boardList } = useAuth();
+  const { uId, setGetDataAgain, getDataAgain, boardList } = useAuth();
   const axiosSecure = useAxiosSecure();
 
   const {
@@ -26,7 +26,7 @@ const TaskForm = ({ setOpenTaskForm }) => {
       });
       console.log(res.data);
       if (res.data.message) {
-        setUpdateTaskList((prev) => prev + 1);
+        setGetDataAgain(!getDataAgain);
         Swal.fire({
           title: "Congrats!",
           text: `Your task Successfully added!`,

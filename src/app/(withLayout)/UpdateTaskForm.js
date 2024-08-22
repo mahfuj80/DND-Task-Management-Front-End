@@ -6,12 +6,10 @@ import useAxiosSecure from "@/Hooks/Axios/useAxiosSecure";
 const UpdateTaskForm = ({
   updateInfo,
   setUpdateInfo,
-  openPop,
-  setOpenPop,
-  setUpdateTaskList,
+  setOpenUpdateForm,
   boardList,
 }) => {
-  const { loading, setLoading, tasks, setTasks, uId } = useAuth();
+  const { getDataAgain, setGetDataAgain } = useAuth();
   const axiosSecure = useAxiosSecure();
   const {
     register,
@@ -34,8 +32,8 @@ const UpdateTaskForm = ({
       });
       if (res.data) {
         setUpdateInfo({});
-        setOpenPop(false);
-        setUpdateTaskList((prev) => prev + 1);
+        setOpenUpdateForm(false);
+        setGetDataAgain(!getDataAgain);
         Swal.fire({
           title: "Congrats!",
           text: `Your task Successfully updated!`,
@@ -60,7 +58,7 @@ const UpdateTaskForm = ({
           <p>Title</p>
           <p
             className="text-black cursor-pointer"
-            onClick={() => setOpenPop(false)}
+            onClick={() => setOpenUpdateForm(false)}
           >
             X
           </p>

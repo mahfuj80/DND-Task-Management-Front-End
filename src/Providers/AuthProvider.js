@@ -19,7 +19,6 @@ const auth = getAuth(app);
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [updateTaskList, setUpdateTaskList] = useState(0);
   const [uId, setUId] = useState("");
   const [boardList, setBoardList] = useState([]);
   const [getDataAgain, setGetDataAgain] = useState(false);
@@ -105,8 +104,6 @@ const AuthProvider = ({ children }) => {
     githubSignIn,
     uId,
     setUId,
-    updateTaskList,
-    setUpdateTaskList,
     boardList,
     setBoardList,
     setGetDataAgain,

@@ -15,14 +15,12 @@ const AllTask = () => {
   const {
     loading,
     uId,
-    updateTaskList,
-    setUpdateTaskList,
     setBoardList,
     boardList,
     getDataAgain,
     setGetDataAgain,
   } = useAuth();
-  const [openPop, setOpenPop] = useState(false);
+  const [openUpdateForm, setOpenUpdateForm] = useState(false);
   const [updateInfo, setUpdateInfo] = useState({});
 
   // Get Task
@@ -39,7 +37,7 @@ const AllTask = () => {
   //Update Task
   function handleUpdate(task) {
     setUpdateInfo(task);
-    setOpenPop(true);
+    setOpenUpdateForm(true);
   }
 
   //Delete Single Task
@@ -71,7 +69,7 @@ const AllTask = () => {
             text: "Your task has been successfully deleted.",
             icon: "success",
           });
-          setUpdateTaskList((prev) => prev + 1);
+          setGetDataAgain(!getDataAgain);
         }
       }
     } catch (error) {
@@ -140,17 +138,18 @@ const AllTask = () => {
 
   useEffect(() => {
     getBoards();
-  }, [updateTaskList, getDataAgain]);
+  }, [getDataAgain, getDataAgain]);
 
   // On Drag Update Card Category/Board
   const onDragEnd = async (result) => {
     const { destination, source, draggableId } = result;
 
-    // console.log("Drag result:", destination, source, draggableId);
+    console.log(result);
 
-    if (!destination) {
-      return;
-    }
+    // If there's no destination, do nothing
+    if (!destination) return;
+
+    // If the task is dropped in the same position, do nothing
     if (
       destination.droppableId === source.droppableId &&
       destination.index === source.index
@@ -158,22 +157,54 @@ const AllTask = () => {
       return;
     }
 
-    const updatedTasks = [...tasks];
-    console.log(updatedTasks, 77);
+    // Clone the tasks array to avoid mutating the state directly
+    const updatedTasks = Array.from(tasks);
 
-    const task = updatedTasks.find((t) => t.id === draggableId * 1);
+    // Find the dragged task index
+    const taskIndex = updatedTasks.findIndex(
+      (t) => t.id === parseInt(draggableId, 10)
+    );
+    const task = updatedTasks[taskIndex];
 
     if (task) {
-      task.category = destination.droppableId;
-      console.log("Task updated:", task);
-      const res = await axiosSecure.put(
-        `/tasks/update-task-category/${task.id}`,
-        {
-          category: task.category,
-        }
-      );
-      console.log("Update response:", res.data);
-      setTasks(updatedTasks);
+      // Remove the task from its original position
+      updatedTasks.splice(taskIndex, 1);
+
+      // Update the task category if it is moved to a different board
+      if (task.category !== destination.droppableId) {
+        task.category = destination.droppableId;
+      }
+
+      // Insert the task into its new position
+      updatedTasks.splice(destination.index, 0, task);
+
+      // Ensure the keys are unique by using task.id as the key
+      const newTasks = updatedTasks.map((task) => ({
+        ...task,
+        key: task.id, // Ensure each task has a unique key
+      }));
+
+      console.log(newTasks);
+
+      // Trying To Find Updated Tasks Index
+
+      // Optimistically update the UI
+      setTasks(newTasks);
+
+      try {
+        const response = await axiosSecure.put(
+          `/tasks/update-task-category/${uId}`,
+          {
+            tasks, // Send the tasks array in the request body
+          }
+        );
+
+        // Handle the response if needed
+        console.log("Tasks updated successfully:", response.data);
+      } catch (error) {
+        // Handle errors
+        console.error("Error updating tasks:", error);
+      }
     } else {
       console.error("Task not found:", draggableId);
     }
@@ -291,15 +322,14 @@ const AllTask = () => {
       {/* Modal For Update Task */}
       <div
         className={`h-screen flex flex-col items-center justify-center fixed inset-0 bg-black bg-opacity-90 ${
-          openPop ? "block" : "hidden"
+          openUpdateForm ? "block" : "hidden"
         }`}
       >
         <UpdateTaskForm
-          setUpdateTaskList={setUpdateTaskList}
           updateInfo={updateInfo}
           setUpdateInfo={setUpdateInfo}
-          openPop={openPop}
-          setOpenPop={setOpenPop}
+          openUpdateForm={openUpdateForm}
+          setOpenUpdateForm={setOpenUpdateForm}
           boardList={boardList}
         />
       </div>
