@@ -1,4 +1,3 @@
-// components/Sidebar.js
 "use client";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
 import { useState } from "react";
@@ -56,7 +55,7 @@ const Sidebar = ({ setOpenTaskForm }) => {
 
         {/* Sidebar */}
         <aside
-          className={`md:relative absolute md:top-0  top-16 left-0 z-30 h-screen bg-black text-white transition-transform transform ${
+          className={`md:relative absolute md:top-0  top-16 left-0 z-30 min-h-screen  bg-black text-white transition-transform transform h-full ${
             isOpen ? "translate-x-0" : "-translate-x-96"
           } md:translate-x-0 md:relative w-64`}
         >
@@ -108,22 +107,19 @@ const Sidebar = ({ setOpenTaskForm }) => {
       >
         <div className="bg-white rounded-lg p-4 text-black relative">
           <form onSubmit={addBoard}>
-            <button
+            <p
               onClick={() => setOpenBoardPop(false)}
-              className="absolute right-4 font-bold "
+              className="absolute right-4 font-bold cursor-pointer"
             >
               X
-            </button>
+            </p>
             {/* Input */}
-            <label
-              htmlFor="boardName"
-              className="block mb-2 font-bold text-black"
-            >
+            <label htmlFor="board" className="block mb-2 font-bold text-black">
               Board Name
             </label>
             <input
               required
-              id="boardName"
+              id="board"
               name="boardName"
               placeholder="Add Board"
               className="w-full px-3 py-2 text-black border rounded-lg focus:outline-none focus:border-blue-500"

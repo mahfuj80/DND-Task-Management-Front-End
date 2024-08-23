@@ -195,7 +195,7 @@ const AllTask = () => {
         const response = await axiosSecure.put(
           `/tasks/update-task-category/${uId}`,
           {
-            tasks, // Send the tasks array in the request body
+            newTasks, // Send the tasks array in the request body
           }
         );
 
