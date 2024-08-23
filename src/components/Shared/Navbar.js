@@ -29,7 +29,7 @@ const Navbar = () => {
       {user?.email ? (
         <li>
           <Link
-            href={"/dashboard"}
+            href="/dashboard"
             className="relative inline-block px-2 py-1 text-gray-300 transition-all duration-300 group"
           >
             Dashboard

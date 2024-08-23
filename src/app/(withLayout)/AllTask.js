@@ -13,6 +13,7 @@ const AllTask = () => {
   const axiosSecure = useAxiosSecure();
   const [tasks, setTasks] = useState([]);
   const {
+    setLoading,
     loading,
     uId,
     setBoardList,
@@ -85,12 +86,14 @@ const AllTask = () => {
   // Get Boards
   async function getBoards() {
     try {
+      setLoading(true);
       const res = await axiosSecure.get(`/categories/${uId}`);
       console.log("all boards:", res.data);
       setBoardList(res.data);
       if (res.data) {
         getTasks();
       }
+      setLoading(false);
     } catch (error) {
       console.error("Error fetching tasks:", error);
     }
