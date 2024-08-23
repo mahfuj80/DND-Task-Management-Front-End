@@ -232,7 +232,7 @@ const AllTask = () => {
             hidden: { opacity: 0, x: -50 },
             visible: { opacity: 1, x: 0 },
           }}
-          className="container flex flex-col gap-8 p-4 mx-auto todo-board md:flex-row flex-wrap w-full justify-center"
+          className="container flex flex-col flex-wrap justify-center w-full gap-8 p-4 mx-auto todo-board md:flex-row"
         >
           {/* Single Board */}
           {boardList?.map((board) => {
@@ -244,11 +244,11 @@ const AllTask = () => {
                     {...provided.droppableProps}
                     ref={provided.innerRef}
                   >
-                    <div className="flex justify-between mb-5 md:text-3xl font-bold text-white">
+                    <div className="flex justify-between mb-5 font-bold text-white md:text-3xl">
                       <p>{board.boardname}</p>
                       <button
                         onClick={() => deleteBoard(board.id)}
-                        className=" text-red-300 hover:text-red-500"
+                        className="text-red-300 hover:text-red-500"
                       >
                         <MdDeleteForever />
                       </button>
@@ -263,14 +263,14 @@ const AllTask = () => {
                         >
                           {(provided) => (
                             <div
-                              className="mb-4 bg-gray-950 p-2 rounded-lg overflow-hidden"
+                              className="p-2 mb-4 overflow-hidden rounded-lg bg-gray-950"
                               {...provided.draggableProps}
                               {...provided.dragHandleProps}
                               ref={provided.innerRef}
                             >
                               <div className="flex justify-between">
                                 {/* Title And Deadline */}
-                                <div className=" space-y-2">
+                                <div className="space-y-2 ">
                                   <div className="">
                                     <p className="italic">Task Title:</p>
                                     <p className="text-xl font-medium break-all">
@@ -278,10 +278,26 @@ const AllTask = () => {
                                     </p>
                                   </div>
                                   <div className="flex gap-2">
-                                    <p className="font-medium italic">
+                                    <p className="italic font-medium">
                                       Deadline:
                                     </p>
                                     <p>{task.deadline}</p>
+                                  </div>
+                                  <div className="flex items-center gap-2">
+                                    <p className="italic font-medium">
+                                      Priority:
+                                    </p>
+                                    <p
+                                      className={`"uppercase px-2 text-black text-sm font-semibold uppercase rounded-lg " ${
+                                        task.priority === "low"
+                                          ? "bg-green-400"
+                                          : task.priority === "moderate"
+                                          ? "bg-red-200"
+                                          : "bg-red-500"
+                                      }`}
+                                    >
+                                      {task.priority}
+                                    </p>
                                   </div>
                                 </div>
                                 {/* Action Button  */}
